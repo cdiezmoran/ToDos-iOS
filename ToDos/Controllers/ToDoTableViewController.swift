@@ -67,9 +67,17 @@ class ToDoTableViewController: UITableViewController {
     
     return cell
   }
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      toDos.remove(at: indexPath.row)
+    }
+  }
 }
 
+
 // MARK: Extensions
+
 extension ToDoTableViewController: ToDoTableViewCellDelegate {
   func toggleCompleted(toDo: ToDo) {
     toDo.completed = !toDo.completed
