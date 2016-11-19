@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddToDoViewControllerDelegate: class {
   func addToDo(toDo: ToDo)
+  func modifyToDo(toDo: ToDo, title: String, deadline: Date)
 }
 
 class AddToDoViewController: UIViewController {
@@ -22,6 +23,7 @@ class AddToDoViewController: UIViewController {
   
   // MARK: Properties
   weak var delegate: AddToDoViewControllerDelegate?
+  var toDo: ToDo?
   
   
   // MARK: View controller life cycle
@@ -30,6 +32,11 @@ class AddToDoViewController: UIViewController {
     super.viewDidLoad()
     
     saveButton.isEnabled = false
+    
+    if let existingToDo = toDo {
+      titleTextField.text = existingToDo.title
+      deadlinePickerView.date = existingToDo.deadline
+    }
   }
   
   override func didReceiveMemoryWarning() {
@@ -40,12 +47,17 @@ class AddToDoViewController: UIViewController {
   // MARK: Actions
   
   @IBAction func saveButtonClicked(_ sender: AnyObject) {
-    let title = titleTextField.text
-    let date = deadlinePickerView.date
+    let title = titleTextField.text!
+    let deadline = deadlinePickerView.date
     
-    let newToDo = ToDo(title: title!, completed: false, deadline: date)
-    
-    delegate?.addToDo(toDo: newToDo)
+    if let existingToDo = toDo {
+      delegate?.modifyToDo(toDo: existingToDo, title: title, deadline: deadline)
+    }
+    else {
+      let newToDo = ToDo(title: title, completed: false, deadline: deadline)
+      
+      delegate?.addToDo(toDo: newToDo)
+    }
     dismissViewController()
   }
   
@@ -61,6 +73,8 @@ class AddToDoViewController: UIViewController {
       saveButton.isEnabled = false
     }
   }
+  
+
   // MARK: Helper methods
   
   func dismissViewController() {

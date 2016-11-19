@@ -13,7 +13,7 @@ class ToDoTableViewController: UITableViewController {
   // MARK: Properties
   var sectionTitles = ["Undone", "Done"]
   
-  var toDos: [[ToDo]] = [[ToDo(title: "Hola", completed: false, deadline: Date())], [ToDo(title: "Adios", completed: true, deadline: Date())]] {
+  var toDos: [[ToDo]] = [[], []] {
     didSet {
       tableView.reloadData()
     }
@@ -25,8 +25,6 @@ class ToDoTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-    toDos[1].append(ToDo(title: "Do something", completed: true, deadline: Date()))
-    print("\n\n\(toDos[0][0])\n\n")
   }
 
   override func didReceiveMemoryWarning() {
@@ -122,6 +120,13 @@ extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
         }
       }
     }
+  }
+  
+  func modifyToDo(toDo: ToDo, title: String, deadline: Date) {
+    toDo.title = title
+    toDo.deadline = deadline
+    
+    tableView.reloadData()
   }
 }
 

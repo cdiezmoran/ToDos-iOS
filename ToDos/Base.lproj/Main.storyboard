@@ -168,7 +168,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wb9-dN-0ev" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1104.8" y="-184.85757121439281"/>
+            <point key="canvasLocation" x="1975" y="-8"/>
         </scene>
         <!--Title-->
         <scene sceneID="HrF-5e-vbh">
@@ -193,6 +193,12 @@
                                     <action selector="deleteButtonClicked:" destination="hQb-1u-7pc" eventType="touchUpInside" id="OVk-Sw-qZO"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTu-wt-5PQ">
+                                <state key="normal" title="Modify this ToDo"/>
+                                <connections>
+                                    <segue destination="7US-WL-xoE" kind="presentation" identifier="modifyToDo" id="m8h-3e-jkC"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xr0-Ke-qQz">
                                 <state key="normal" title="Mark as done ✅"/>
                                 <connections>
@@ -202,6 +208,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="WTu-wt-5PQ" firstAttribute="leading" secondItem="vQe-7X-gho" secondAttribute="leadingMargin" id="7Hj-bM-Mdt"/>
+                            <constraint firstItem="WTu-wt-5PQ" firstAttribute="top" secondItem="w9Q-kA-5Z3" secondAttribute="bottom" constant="8" id="AhF-5C-1Ya"/>
                             <constraint firstItem="dq0-IM-xav" firstAttribute="top" secondItem="ROO-qH-bW4" secondAttribute="bottom" constant="29" id="EAr-9z-dNb"/>
                             <constraint firstItem="xr0-Ke-qQz" firstAttribute="leading" secondItem="vQe-7X-gho" secondAttribute="leadingMargin" id="IGv-3E-vWn"/>
                             <constraint firstItem="xr0-Ke-qQz" firstAttribute="top" secondItem="dq0-IM-xav" secondAttribute="bottom" constant="40" id="OeM-jA-4oh"/>
@@ -211,6 +219,7 @@
                             <constraint firstItem="xr0-Ke-qQz" firstAttribute="trailing" secondItem="vQe-7X-gho" secondAttribute="trailingMargin" id="p8B-c9-B8r"/>
                             <constraint firstAttribute="leadingMargin" secondItem="dq0-IM-xav" secondAttribute="leading" id="xKs-zE-Apn"/>
                             <constraint firstItem="w9Q-kA-5Z3" firstAttribute="leading" secondItem="vQe-7X-gho" secondAttribute="leadingMargin" id="z8h-1O-7te"/>
+                            <constraint firstItem="WTu-wt-5PQ" firstAttribute="trailing" secondItem="vQe-7X-gho" secondAttribute="trailingMargin" id="zvo-Ew-eCP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="xxl-Uj-IdC"/>
@@ -223,7 +232,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cLu-Og-zlf" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="aC8-Me-1cE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1101.5999999999999" y="532.98350824587715"/>
+            <point key="canvasLocation" x="1105" y="345"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xga-Ua-vYV">
@@ -242,4 +251,7 @@
             <point key="canvasLocation" x="-764" y="-7"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="m8h-3e-jkC"/>
+    </inferredMetricsTieBreakers>
 </document>

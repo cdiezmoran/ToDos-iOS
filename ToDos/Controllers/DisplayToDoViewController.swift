@@ -11,6 +11,7 @@ import UIKit
 protocol DisplayToDoViewControllerDelegate: class {
   func toggleCompleted(toDo: ToDo)
   func removeToDo(toDo: ToDo)
+  func modifyToDo(toDo: ToDo, title: String, deadline: Date)
 }
 
 class DisplayToDoViewController: UIViewController {
@@ -31,10 +32,9 @@ class DisplayToDoViewController: UIViewController {
     super.viewDidLoad()
     
     if let existingToDo = toDo {
-      self.navigationItem.title = existingToDo.title
       // I made a copy of the toDo so the delegate is not redundant and updates the tableview
       toDoCopy = existingToDo.copy() as! ToDo
-      updateUI(forToDo: toDoCopy)
+      updateUI(for: toDoCopy)
     }
   }
   
@@ -43,12 +43,21 @@ class DisplayToDoViewController: UIViewController {
     
   }
   
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "modifyToDo" {
+      let addToDoViewController = segue.destination as! AddToDoViewController
+      
+      addToDoViewController.delegate = self
+      addToDoViewController.toDo = toDo
+    }
+  }
+  
   
   // MARK: Actions
   
   @IBAction func doneButtonClicked(_ sender: AnyObject) {
     toDoCopy.completed = !toDoCopy.completed
-    updateUI(forToDo: toDoCopy)
+    updateUI(for: toDoCopy)
     
     delegate?.toggleCompleted(toDo: toDo!)
   }
@@ -60,7 +69,9 @@ class DisplayToDoViewController: UIViewController {
   
   
   // MARK: helper functions
-  func updateUI(forToDo toDo: ToDo) {
+  func updateUI(for toDo: ToDo) {
+    self.navigationItem.title = toDo.title
+    
     descriptionLabel.text = toDo.getDescriptionData().description
     descriptionLabel.textColor = toDo.getDescriptionData().color
     
@@ -71,5 +82,17 @@ class DisplayToDoViewController: UIViewController {
       doneButton.setTitle("Mark as done ✅", for: .normal)
     }
   }
+}
+
+extension DisplayToDoViewController: AddToDoViewControllerDelegate {
+  func modifyToDo(toDo: ToDo, title: String, deadline: Date) {
+    toDoCopy.title = title
+    toDoCopy.deadline = deadline
+    
+    updateUI(for: toDoCopy)
+    delegate?.modifyToDo(toDo: toDo, title: title, deadline: deadline)
+  }
   
+  func addToDo(toDo: ToDo) {
+  }
 }
