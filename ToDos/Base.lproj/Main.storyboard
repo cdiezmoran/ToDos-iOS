@@ -102,6 +102,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="titleFieldChanged:" destination="7US-WL-xoE" eventType="editingChanged" id="e50-Ya-Fnp"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deadline" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lb-eA-i8t">
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -159,6 +162,7 @@
                     </view>
                     <connections>
                         <outlet property="deadlinePickerView" destination="2wv-kp-Fkm" id="0ek-Hs-yRc"/>
+                        <outlet property="saveButton" destination="Lid-Yu-ciU" id="W81-Ao-4ZG"/>
                         <outlet property="titleTextField" destination="eCU-Ej-08B" id="qrI-cZ-ouE"/>
                     </connections>
                 </viewController>

@@ -17,6 +17,7 @@ class AddToDoViewController: UIViewController {
   // MARK: Outlets
   @IBOutlet var titleTextField: UITextField!
   @IBOutlet var deadlinePickerView: UIDatePicker!
+  @IBOutlet var saveButton: UIButton!
   
   
   // MARK: Properties
@@ -27,6 +28,8 @@ class AddToDoViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    saveButton.isEnabled = false
   }
   
   override func didReceiveMemoryWarning() {
@@ -50,6 +53,14 @@ class AddToDoViewController: UIViewController {
     dismissViewController()
   }
   
+  @IBAction func titleFieldChanged(_ sender: UITextField) {
+    if sender.text != "" {
+      saveButton.isEnabled = true
+    }
+    else {
+      saveButton.isEnabled = false
+    }
+  }
   // MARK: Helper methods
   
   func dismissViewController() {
