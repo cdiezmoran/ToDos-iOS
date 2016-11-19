@@ -11,7 +11,9 @@ import UIKit
 class ToDoTableViewController: UITableViewController {
   
   // MARK: Properties
-  var toDos = [ToDo]() {
+  var sectionTitles = ["Undone", "Done"]
+  
+  var toDos: [[ToDo]] = [[ToDo(title: "Hola", completed: false, deadline: Date())], [ToDo(title: "Adios", completed: true, deadline: Date())]] {
     didSet {
       tableView.reloadData()
     }
@@ -23,6 +25,8 @@ class ToDoTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    toDos[1].append(ToDo(title: "Do something", completed: true, deadline: Date()))
+    print("\n\n\(toDos[0][0])\n\n")
   }
 
   override func didReceiveMemoryWarning() {
@@ -35,7 +39,7 @@ class ToDoTableViewController: UITableViewController {
       let displayToDoViewController = segue.destination as! DisplayToDoViewController
       
       let indexPath = tableView.indexPathForSelectedRow!
-      let toDo = toDos[indexPath.row]
+      let toDo = toDos[indexPath.section][indexPath.row]
       
       displayToDoViewController.toDo = toDo
       displayToDoViewController.delegate = self
@@ -52,15 +56,27 @@ class ToDoTableViewController: UITableViewController {
   
   
   // MARK: Table view methods
+  
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return toDos.count
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if section < sectionTitles.count {
+      return sectionTitles[section]
+    }
+    
+    return nil
+  }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return toDos.count
+    return toDos[section].count
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "toDoCell") as! ToDoTableViewCell
     
-    let toDo = toDos[indexPath.row]
+    let toDo = toDos[indexPath.section][indexPath.row]
     
     cell.toDo = toDo
     cell.delegate = self
@@ -70,7 +86,7 @@ class ToDoTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      toDos.remove(at: indexPath.row)
+      toDos[indexPath.section].remove(at: indexPath.row)
     }
   }
 }
@@ -80,7 +96,16 @@ class ToDoTableViewController: UITableViewController {
 
 extension ToDoTableViewController: ToDoTableViewCellDelegate {
   func toggleCompleted(toDo: ToDo) {
+    removeToDo(toDo: toDo)
+    
     toDo.completed = !toDo.completed
+    
+    if toDo.completed {
+      toDos[1].append(toDo)
+    }
+    else {
+      toDos[0].append(toDo)
+    }
     
     tableView.reloadData()
   }
@@ -89,9 +114,12 @@ extension ToDoTableViewController: ToDoTableViewCellDelegate {
 
 extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
   func removeToDo(toDo: ToDo) {
-    for index in 0..<toDos.count {
-      if toDos[index] === toDo {
-        toDos.remove(at: index)
+    for section in 0..<2 {
+      for index in 0..<toDos[section].count {
+        if toDos[section][index] === toDo {
+          toDos[section].remove(at: index)
+          return
+        }
       }
     }
   }
@@ -99,7 +127,7 @@ extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
 
 extension ToDoTableViewController: AddToDoViewControllerDelegate {
   func addToDo(toDo: ToDo) {
-    toDos.append(toDo)
+    toDos[0].append(toDo)
   }
 }
 
