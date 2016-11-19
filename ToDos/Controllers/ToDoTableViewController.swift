@@ -11,8 +11,11 @@ import UIKit
 class ToDoTableViewController: UITableViewController {
   
   // MARK: Properties
-  var toDos: [ToDo] = [ToDo(title: "Go grocery shopping", completed: false, deadLine: "18/11/2016"),
-                       ToDo(title: "Workout", completed: false, deadLine: "19/11/2016")]
+  var toDos = [ToDo]() {
+    didSet {
+      tableView.reloadData()
+    }
+  }
   
   
   // MARK: View controller's life cycle
@@ -36,6 +39,10 @@ class ToDoTableViewController: UITableViewController {
       
       displayToDoViewController.toDo = toDo
       displayToDoViewController.delegate = self
+    }
+    else if segue.identifier == "addToDo" {
+      let addToDoViewController = segue.destination as! AddToDoViewController
+      addToDoViewController.delegate = self
     }
   }
   
@@ -62,7 +69,7 @@ class ToDoTableViewController: UITableViewController {
   }
 }
 
-
+// MARK: Extensions
 extension ToDoTableViewController: ToDoTableViewCellDelegate {
   func toggleCompleted(toDo: ToDo) {
     toDo.completed = !toDo.completed
@@ -79,8 +86,12 @@ extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
         toDos.remove(at: index)
       }
     }
-    
-    tableView.reloadData()
+  }
+}
+
+extension ToDoTableViewController: AddToDoViewControllerDelegate {
+  func addToDo(toDo: ToDo) {
+    toDos.append(toDo)
   }
 }
 

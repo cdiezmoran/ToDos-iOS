@@ -8,7 +8,20 @@
 
 import UIKit
 
+protocol AddToDoViewControllerDelegate: class {
+  func addToDo(toDo: ToDo)
+}
+
 class AddToDoViewController: UIViewController {
+  
+  // MARK: Outlets
+  @IBOutlet var titleTextField: UITextField!
+  @IBOutlet var deadlinePickerView: UIDatePicker!
+  
+  
+  // MARK: Properties
+  weak var delegate: AddToDoViewControllerDelegate?
+  
   
   // MARK: View controller life cycle
   
@@ -20,4 +33,26 @@ class AddToDoViewController: UIViewController {
     super.didReceiveMemoryWarning()
   }
   
+  
+  // MARK: Actions
+  
+  @IBAction func saveButtonClicked(_ sender: AnyObject) {
+    let title = titleTextField.text
+    let date = deadlinePickerView.date
+    
+    let newToDo = ToDo(title: title!, completed: false, deadline: date)
+    
+    delegate?.addToDo(toDo: newToDo)
+    dismissViewController()
+  }
+  
+  @IBAction func cancelButtonClicked(_ sender: AnyObject) {
+    dismissViewController()
+  }
+  
+  // MARK: Helper methods
+  
+  func dismissViewController() {
+    presentingViewController?.dismiss(animated: true)
+  }
 }

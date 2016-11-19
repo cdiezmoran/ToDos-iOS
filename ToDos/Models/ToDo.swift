@@ -11,12 +11,12 @@ import UIKit
 class ToDo {
   var title: String
   var completed: Bool
-  var deadLine: String
+  var deadline: Date
   
-  init(title: String, completed: Bool, deadLine: String) {
+  init(title: String, completed: Bool, deadline: Date) {
     self.title = title
     self.completed = completed
-    self.deadLine = deadLine
+    self.deadline = deadline
   }
   
   func getDescriptionData() -> (description: String, color: UIColor) {
@@ -24,7 +24,15 @@ class ToDo {
       return (description: "You are done here 💪", color: UIColor.green)
     }
     
-    return (description: "Deadline: \(deadLine)", color: UIColor.red)
+    let deadlineString = stringFromDeadline()
+    return (description: "Deadline: \(deadlineString)", color: UIColor.red)
+  }
+  
+  func stringFromDeadline() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "MM/dd/yyyy"
+    
+    return dateFormatter.string(from: deadline)
   }
   
   func getButtonTitle() -> String {
@@ -36,8 +44,8 @@ class ToDo {
     }
   }
   
-  func copy(with zone: NSZone? = nil) -> Any {
-    let copy = ToDo(title: title, completed: completed, deadLine: deadLine)
+  func copy() -> Any {
+    let copy = ToDo(title: title, completed: completed, deadline: deadline)
     return copy
   }
 }
