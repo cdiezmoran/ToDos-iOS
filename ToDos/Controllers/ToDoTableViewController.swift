@@ -11,7 +11,7 @@ import UIKit
 class ToDoTableViewController: UITableViewController {
   
   // MARK: Properties
-  var ToDos: [ToDo] = [ToDo(title: "Go grocery shopping", completed: false, deadLine: "18/11/2016"),
+  var toDos: [ToDo] = [ToDo(title: "Go grocery shopping", completed: false, deadLine: "18/11/2016"),
                        ToDo(title: "Workout", completed: false, deadLine: "19/11/2016")]
   
   
@@ -29,21 +29,31 @@ class ToDoTableViewController: UITableViewController {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showToDo" {
+      let displayToDoViewController = segue.destination as! DisplayToDoViewController
       
+      let indexPath = tableView.indexPathForSelectedRow!
+      let toDo = toDos[indexPath.row]
+      
+      displayToDoViewController.toDo = toDo
+      displayToDoViewController.delegate = self
     }
+  }
+  
+  @IBAction func unwindToMyToDos(segue: UIStoryboardSegue) {
+  
   }
   
   
   // MARK: Table view methods
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return ToDos.count
+    return toDos.count
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "toDoCell") as! ToDoTableViewCell
     
-    let toDo = ToDos[indexPath.row]
+    let toDo = toDos[indexPath.row]
     
     cell.toDo = toDo
     cell.delegate = self
@@ -56,6 +66,19 @@ class ToDoTableViewController: UITableViewController {
 extension ToDoTableViewController: ToDoTableViewCellDelegate {
   func toggleCompleted(toDo: ToDo) {
     toDo.completed = !toDo.completed
+    
+    tableView.reloadData()
+  }
+}
+
+
+extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
+  func removeToDo(toDo: ToDo) {
+    for index in 0..<toDos.count {
+      if toDos[index] === toDo {
+        toDos.remove(at: index)
+      }
+    }
     
     tableView.reloadData()
   }

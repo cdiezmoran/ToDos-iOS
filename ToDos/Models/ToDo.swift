@@ -35,4 +35,9 @@ class ToDo {
       return "✅"
     }
   }
+  
+  func copy(with zone: NSZone? = nil) -> Any {
+    let copy = ToDo(title: title, completed: completed, deadLine: deadLine)
+    return copy
+  }
 }
