@@ -9,8 +9,8 @@
 import UIKit
 
 protocol AddToDoViewControllerDelegate: class {
-  func addToDo(toDo: ToDo)
-  func modifyToDo(toDo: ToDo, title: String, deadline: Date)
+  func addToDoViewController(_: AddToDoViewController, add toDo: ToDo)
+  func addToDoViewController(_: AddToDoViewController, modify toDo: ToDo, withTitle title: String, withDeadline deadline: Date)
 }
 
 class AddToDoViewController: UIViewController {
@@ -51,12 +51,12 @@ class AddToDoViewController: UIViewController {
     let deadline = deadlinePickerView.date
     
     if let existingToDo = toDo {
-      delegate?.modifyToDo(toDo: existingToDo, title: title, deadline: deadline)
+      delegate?.addToDoViewController(self, modify: existingToDo, withTitle: title, withDeadline: deadline)
     }
     else {
       let newToDo = ToDo(title: title, completed: false, deadline: deadline)
       
-      delegate?.addToDo(toDo: newToDo)
+      delegate?.addToDoViewController(self, add: newToDo)
     }
     dismissViewController()
   }

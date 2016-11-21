@@ -9,7 +9,8 @@
 import UIKit
 
 protocol ToDoTableViewCellDelegate: class {
-  func toggleCompleted(toDo: ToDo)
+  func toDoTableViewCell(_: ToDoTableViewCell, toggleCompletedFor toDo: ToDo)
+  //func toggleCompleted(toDo: ToDo)
 }
 
 class ToDoTableViewCell: UITableViewCell {
@@ -36,7 +37,7 @@ class ToDoTableViewCell: UITableViewCell {
   // MARK: Actions
   
   @IBAction func doneButtonClicked(_ sender: AnyObject) {
-    delegate?.toggleCompleted(toDo: toDo!)
+    delegate?.toDoTableViewCell(self, toggleCompletedFor: toDo!)
   }
   
 }

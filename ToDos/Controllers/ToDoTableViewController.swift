@@ -87,14 +87,12 @@ class ToDoTableViewController: UITableViewController {
       toDos[indexPath.section].remove(at: indexPath.row)
     }
   }
-}
-
-
-// MARK: Extensions
-
-extension ToDoTableViewController: ToDoTableViewCellDelegate {
+  
+  
+  // MARK: Helper methods
+  
   func toggleCompleted(toDo: ToDo) {
-    removeToDo(toDo: toDo)
+    remove(toDo: toDo)
     
     toDo.completed = !toDo.completed
     
@@ -107,11 +105,8 @@ extension ToDoTableViewController: ToDoTableViewCellDelegate {
     
     tableView.reloadData()
   }
-}
-
-
-extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
-  func removeToDo(toDo: ToDo) {
+  
+  func remove(toDo: ToDo) {
     for section in 0..<2 {
       for index in 0..<toDos[section].count {
         if toDos[section][index] === toDo {
@@ -122,7 +117,7 @@ extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
     }
   }
   
-  func modifyToDo(toDo: ToDo, title: String, deadline: Date) {
+  func modify(toDo: ToDo, title: String, deadline: Date) {
     toDo.title = title
     toDo.deadline = deadline
     
@@ -130,9 +125,36 @@ extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
   }
 }
 
+
+// MARK: Extensions
+
+extension ToDoTableViewController: ToDoTableViewCellDelegate {
+  func toDoTableViewCell(_: ToDoTableViewCell, toggleCompletedFor toDo: ToDo) {
+    toggleCompleted(toDo: toDo)
+  }
+}
+
+
+extension ToDoTableViewController: DisplayToDoViewControllerDelegate {
+  func displayToDoViewController(_: DisplayToDoViewController, toggleCompletedFor toDo: ToDo) {
+    toggleCompleted(toDo: toDo)
+  }
+  
+  func displayToDoViewController(_: DisplayToDoViewController, remove toDo: ToDo) {
+    remove(toDo: toDo)
+  }
+  
+  func displayToDoViewController(_: DisplayToDoViewController, modify toDo: ToDo, withTitle title: String, withDeadline deadline: Date) {
+    modify(toDo: toDo, title: title, deadline: deadline)
+  }
+}
+
 extension ToDoTableViewController: AddToDoViewControllerDelegate {
-  func addToDo(toDo: ToDo) {
+  func addToDoViewController(_: AddToDoViewController, add toDo: ToDo) {
     toDos[0].append(toDo)
+  }
+  
+  func addToDoViewController(_: AddToDoViewController, modify toDo: ToDo, withTitle title: String, withDeadline deadline: Date) {
   }
 }
 

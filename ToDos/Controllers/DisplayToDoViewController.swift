@@ -9,9 +9,9 @@
 import UIKit
 
 protocol DisplayToDoViewControllerDelegate: class {
-  func toggleCompleted(toDo: ToDo)
-  func removeToDo(toDo: ToDo)
-  func modifyToDo(toDo: ToDo, title: String, deadline: Date)
+  func displayToDoViewController(_: DisplayToDoViewController, toggleCompletedFor toDo: ToDo)
+  func displayToDoViewController(_: DisplayToDoViewController, remove toDo: ToDo)
+  func displayToDoViewController(_: DisplayToDoViewController, modify toDo: ToDo, withTitle title: String, withDeadline deadline: Date)
 }
 
 class DisplayToDoViewController: UIViewController {
@@ -59,11 +59,11 @@ class DisplayToDoViewController: UIViewController {
     toDoCopy.completed = !toDoCopy.completed
     updateUI(for: toDoCopy)
     
-    delegate?.toggleCompleted(toDo: toDo!)
+    delegate?.displayToDoViewController(self, toggleCompletedFor: toDo!)
   }
   
   @IBAction func deleteButtonClicked(_ sender: AnyObject) {
-    delegate?.removeToDo(toDo: toDo!)
+    delegate?.displayToDoViewController(self, remove: toDo!)
     self.performSegue(withIdentifier: "unwindToMyToDos", sender: self)
   }
   
@@ -85,14 +85,14 @@ class DisplayToDoViewController: UIViewController {
 }
 
 extension DisplayToDoViewController: AddToDoViewControllerDelegate {
-  func modifyToDo(toDo: ToDo, title: String, deadline: Date) {
+  func addToDoViewController(_: AddToDoViewController, modify toDo: ToDo, withTitle title: String, withDeadline deadline: Date) {
     toDoCopy.title = title
     toDoCopy.deadline = deadline
     
     updateUI(for: toDoCopy)
-    delegate?.modifyToDo(toDo: toDo, title: title, deadline: deadline)
+    delegate?.displayToDoViewController(self, modify: toDo, withTitle: title, withDeadline: deadline)
   }
   
-  func addToDo(toDo: ToDo) {
+  func addToDoViewController(_: AddToDoViewController, add toDo: ToDo) {
   }
 }
